@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// output   = "../generated/prisma"
+
+generator client {
+  provider = "prisma-client-js"
+  
+}
+
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email   String   @unique
+  name    String?
+  age     String?
+
+}
+
+
+
+model veiculos {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  placa       String   @unique
+  marca       String?  // marca do veículo
+  modelo      String?  // modelo do veículo
+  cor         String?  // cor do veículo
+  ano         String?  // ano do veículo
+  horaEntrada DateTime // hora de entrada no estacionamento
+  horaSaida   DateTime? // hora de saída, opcional (quando ainda está estacionado)
+  valorPago   Float?   // valor cobrado, opcional
+  status      String   // status: "aberto", "fechado", "concluído" etc.
+  criadoEm    DateTime @default(now()) // registro criado em
+  atualizadoEm DateTime @updatedAt      // registro atualizado em
+}
+
+model servicos{
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  descricao   String
+  valor       Float
+}
