@@ -365,7 +365,9 @@ app.get("/api/veiculos/concluidos", async (req, res) => {
 
     res.json({ concluidos, total });
   } catch (error) {
-    res.status(500).json({ error: "Erro ao buscar veículos concluídos" });
+   res.status(500).json({ error: "Erro ao buscar veículos concluídos" });
+ 
+  next();
   }
 });
 
@@ -508,5 +510,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server rodando na porta ${PORT}`);
 });
-
 export default app;

@@ -11,7 +11,7 @@ app.use(cors({ origin: "*" }));
 
 // ========== ROTAS ESPECÍFICAS ==========
 
-app.get("/api/veiculos/concluidos", async (req, res) => {
+app.get("/veiculos/concluidos", async (req, res) => {
   try {
     const concluidos = await prisma.veiculos.findMany({
       where: {
@@ -29,7 +29,7 @@ app.get("/api/veiculos/concluidos", async (req, res) => {
   }
 });
 
-app.get("/api/veiculos/abertos", async (req, res) => {
+app.get("/veiculos/abertos", async (req, res) => {
   try {
     const abertos = await prisma.veiculos.findMany({
       where: { status: "aberto" },
@@ -41,7 +41,7 @@ app.get("/api/veiculos/abertos", async (req, res) => {
   }
 });
 
-app.get("/api/veiculos/resumo-diario", async (req, res) => {
+app.get("/veiculos/resumo-diario", async (req, res) => {
   try {
     const hoje = new Date();
     const seteDiasAtras = new Date();
@@ -98,7 +98,7 @@ function formatId(id) {
   }
 }
 
-app.get("/api/:model", validarModelo, async (req, res) => {
+app.get("/:model", validarModelo, async (req, res) => {
   const { model } = req.params;
   try {
     const results = await prisma[model].findMany({
@@ -110,7 +110,7 @@ app.get("/api/:model", validarModelo, async (req, res) => {
   }
 });
 
-app.post("/api/:model", validarModelo, async (req, res) => {
+app.post("/:model", validarModelo, async (req, res) => {
   const { model } = req.params;
   try {
     const created = await prisma[model].create({
@@ -122,7 +122,7 @@ app.post("/api/:model", validarModelo, async (req, res) => {
   }
 });
 
-app.put("/api/:model/:id", validarModelo, async (req, res) => {
+app.put("/:model/:id", validarModelo, async (req, res) => {
   const { model, id } = req.params;
   const objectId = formatId(id);
   if (!objectId) return res.status(400).json({ error: "ID inválido" });
@@ -138,7 +138,7 @@ app.put("/api/:model/:id", validarModelo, async (req, res) => {
   }
 });
 
-app.delete("/api/:model/:id", validarModelo, async (req, res) => {
+app.delete("/:model/:id", validarModelo, async (req, res) => {
   const { model, id } = req.params;
   const objectId = formatId(id);
   if (!objectId) return res.status(400).json({ error: "ID inválido" });
@@ -152,7 +152,17 @@ app.delete("/api/:model/:id", validarModelo, async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+/*
+// Handler específico para Vercel
+export default function handler(req, res) {
+  app(req, res);
+}
 
-// ✅ Exporta handler para Vercel
+// Exportar também para uso local
+export { app };
+*/
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server rodando na porta ${PORT}`);
+});
 export default app;
-
