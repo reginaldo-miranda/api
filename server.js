@@ -367,7 +367,7 @@ app.get("/api/veiculos/concluidos", async (req, res) => {
     res.json({ concluidos, total });
   } catch (error) {
 
-    console.error("Erro ao buscar veículos concluídos:", error);
+    
    res.status(500).json({ error: "Erro ao buscar veículos concluídos" });
  
   next();
