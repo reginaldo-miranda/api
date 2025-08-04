@@ -351,7 +351,7 @@ app.use(cors({ origin: "*" }));
 
 // GET veículos concluídos
 app.get("/api/veiculos/concluidos", async (req, res) => {
-  console.log("passei aqui")
+    console.log("Requisição recebida para /api/veiculos/concluidos");
   try {
     const concluidos = await prisma.veiculos.findMany({
       where: {
@@ -366,6 +366,8 @@ app.get("/api/veiculos/concluidos", async (req, res) => {
 
     res.json({ concluidos, total });
   } catch (error) {
+
+    console.error("Erro ao buscar veículos concluídos:", error);
    res.status(500).json({ error: "Erro ao buscar veículos concluídos" });
  
   next();
