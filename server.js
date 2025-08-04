@@ -351,6 +351,7 @@ app.use(cors({ origin: "*" }));
 
 // GET veículos concluídos
 app.get("/api/veiculos/concluidos", async (req, res) => {
+  console.log("passei aqui")
   try {
     const concluidos = await prisma.veiculos.findMany({
       where: {
